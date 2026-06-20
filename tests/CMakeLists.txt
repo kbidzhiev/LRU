@@ -1,10 +1,3 @@
-cmake_minimum_required(VERSION 3.23)
-
-
-# GoogleTest requires at least C++17
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -15,18 +8,13 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 
-enable_testing()
-
-add_subdirectory(hello_world_lib)
-
-add_executable(
-  hello_test
+add_executable(hello_test
   hello_test.cc
 )
-target_link_libraries(
-  hello_test
-  hello_world_lib
-  GTest::gtest_main
+target_link_libraries(hello_test
+  PRIVATE
+    hello_world_lib
+    GTest::gtest_main
 )
 
 include(GoogleTest)

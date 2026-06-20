@@ -1,6 +1,6 @@
-add_library(Hello_world_lib)
+add_library(hello_world_lib)
 
-target_sources(Hello_world_lib
+target_sources(hello_world_lib
   PRIVATE
     hello.cpp
 

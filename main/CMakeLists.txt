@@ -7,5 +7,5 @@ target_sources(main
 
 target_link_libraries(main
   PRIVATE
-    Hello_world_lib 
+    hello_world_lib 
 )
