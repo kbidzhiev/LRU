@@ -8,7 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 
 add_subdirectory(main)
-add_subdirectory(hello_world_lib)
+add_subdirectory(LRU)
 
 
 include(CTest)

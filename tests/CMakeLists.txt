@@ -9,14 +9,14 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 
-add_executable(hello_test
-  hello_test.cc
+add_executable(caches_test
+  LRU_test.cpp
 )
-target_link_libraries(hello_test
+target_link_libraries(caches_test
   PRIVATE
-    hello_world_lib
+    LRU
     GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(hello_test)
+gtest_discover_tests(caches_test)
