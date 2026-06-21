@@ -1,19 +1,19 @@
 #include "LRU.hpp"
 #include <gtest/gtest.h>
-#include <vector>
 
-
-struct page_t{
+namespace {
+struct page_t {
   int id;
 };
 
-page_t slow_get_page(int key) { return page_t{key}; }
+page_t slow_get_page(int page_id) { return page_t{page_id}; }
+} // namespace
 
 TEST(LRU, no_hit) {
   cache::LRU_t<page_t> lru{3};
 
   // cache is empty, no hits
-  EXPECT_FALSE(lru.lookup_update(1, slow_get_page ));
+  EXPECT_FALSE(lru.lookup_update(1, slow_get_page));
 }
 
 TEST(LRU, one_hit) {
@@ -52,29 +52,18 @@ TEST(LRU, eviction) {
   lru.lookup_update(2, slow_get_page); // [2, 1]
   lru.lookup_update(3, slow_get_page); // [3, 2]
 
-  EXPECT_FALSE(lru.lookup_update(1, slow_get_page)); // 1 is not present before lookup
+  EXPECT_FALSE(
+      lru.lookup_update(1, slow_get_page)); // 1 is not present before lookup
 }
 
 TEST(LRU, example_from_lecture) {
   cache::LRU_t<page_t> lru{2};
 
-  std::vector<int> data_id = {1, 2, 1, 2, 1, 2};
   size_t hits{};
-  for (auto el : data_id) {
-    if (lru.lookup_update(el, slow_get_page))
+  for (int page_id : {1, 2, 1, 2, 1, 2}) {
+    if (lru.lookup_update(page_id, slow_get_page))
       hits += 1;
   }
 
   EXPECT_EQ(4, hits);
 }
-
-TEST(LRU, non_default_key) {
-
-
-}
-
-
-
-
-
-
