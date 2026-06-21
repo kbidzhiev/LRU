@@ -13,7 +13,7 @@ template <typename T, typename KeyT = int> class LRU_t {
   std::unordered_map<T, ListIt> hash_;
 
 public:
-  LRU_t(size_t sz) : sz_{sz} {}
+  explicit LRU_t(size_t sz) : sz_{sz} {}
 
   bool full() const { return cache_.size() == sz_; };
 
