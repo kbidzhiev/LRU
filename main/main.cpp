@@ -1,12 +1,14 @@
 #include "LRU.hpp"
 #include <cassert>
 #include <iostream>
+#include <map>
+#include <string>
 
 int slow_get_page(int key) { return key; }
 
 
 int main() {
-  size_t hits{};
+  std::map<std::string, int> cache_hits;
   size_t sz;
   int nelts;
 
@@ -19,9 +21,12 @@ int main() {
     std::cin >> p;
     assert(std::cin.good());
     if (lru.lookup_update(p, slow_get_page))
-      hits += 1;
+      cache_hits["LRU"] += 1;
   }
 
-  std::cout << "hits: " << hits << std::endl;
+  std::cout << "Cache type\tN hits\n";
+  for(auto [cache_type, nhits]: cache_hits){
+    std::cout << cache_type << "\t" << nhits << std::endl;
+  }
   return 0;
 }
