@@ -12,6 +12,14 @@ FetchContent_MakeAvailable(googletest)
 add_executable(caches_test
   LRU_test.cpp
 )
+
+target_compile_options(caches_test PRIVATE
+    -Wall
+    -Wextra
+    -Werror
+)
+
+
 target_link_libraries(caches_test
   PRIVATE
     LRU
