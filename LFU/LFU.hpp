@@ -1,15 +1,17 @@
 #pragma once
 
+#include <algorithm>
 #include <list>
 #include <unordered_map>
 
 namespace cache {
 
-template <typename T, typename KeyT = int> class LRU_t {
+template <typename T, typename KeyT = int> class LFU_t {
   size_t sz_;
-  struct NodeInfo{
+  struct NodeInfo {
     KeyT key_;
     T page_;
+    size_t freq_;
   };
   std::list<NodeInfo> cache_;
 
@@ -17,7 +19,7 @@ template <typename T, typename KeyT = int> class LRU_t {
   std::unordered_map<KeyT, ListIt> hash_;
 
 public:
-  explicit LRU_t(size_t sz) : sz_{sz} {}
+  explicit LFU_t(size_t sz) : sz_{sz} {}
 
   bool full() const { return cache_.size() == sz_; };
 
@@ -28,14 +30,24 @@ public:
         hash_.erase(cache_.back().key_);
         cache_.pop_back();
       }
-      cache_.emplace_front(key, slow_get_page(key));
-      hash_.emplace(key, cache_.begin());
+      auto it = find_mru_node_for_frequency(1);
+      it = cache_.emplace(it, NodeInfo{key, slow_get_page(key), 1});
+      hash_.emplace(key, it);
       return false;
     }
 
     auto eltit = hit->second;
-    cache_.splice(cache_.begin(), cache_, eltit);
+    eltit->freq_ += 1;
+    auto it = find_mru_node_for_frequency(eltit -> freq_);
+    cache_.splice(it, cache_, eltit);
     return true;
+  }
+
+private:
+  ListIt find_mru_node_for_frequency(size_t freq) {
+    return std::lower_bound(
+        cache_.begin(), cache_.end(), freq,
+        [](const NodeInfo &node, size_t target) { return node.freq_ > target; });
   }
 };
 

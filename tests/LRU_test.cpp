@@ -78,7 +78,7 @@ TEST(LRU, example_from_lecture) {
   std::vector<CacheHits> input_hits = {
       {4, {2, 6, 1, 2, 1, 2, 1, 2}},
       {0, {3, 7, 1, 2, 3, 4, 5, 6, 7}},
-      {6, {4, 12, 1, 2, 3, 4, 1, 2, 5, 1, 2, 4, 3, 4}} // xxxx12x124x4
+      {6, {4, 12, 1, 2, 3, 4, 1, 2, 5, 1, 2, 4, 3, 4}} // xxxx12x124x4 - 6 hits example from slides
   };
 
   for (auto &[cache_hits, input_data] : input_hits) {
