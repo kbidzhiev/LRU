@@ -7,9 +7,9 @@ How to run
 ```
 output is 
 ```bash
-Cahce type \t N hits
-type1\tN1
-type2\tN2
+Cache type   N hits
+LRU          3
+LFU          1
 ```
 
 
