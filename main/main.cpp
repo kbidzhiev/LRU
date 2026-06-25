@@ -27,7 +27,7 @@ int main() {
   std::map<std::string, int> cache_hits;
   for (const auto key : keys) {
     if (perfect_cache.lookup_update(key, slow_get_page))
-      cache_hits["perfect_cache"] += 1;
+      cache_hits["Belady"] += 1;
 
     if (lru.lookup_update(key, slow_get_page))
       cache_hits["LRU"] += 1;

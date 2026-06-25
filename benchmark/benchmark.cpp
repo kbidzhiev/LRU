@@ -33,7 +33,7 @@ int main() {
 
     for (const auto key : keys) {
       if (perfect_cache.lookup_update(key, slow_get_page))
-        cache_hits["perfect_cache"] += 1;
+        cache_hits["Belady"] += 1;
 
       if (lru.lookup_update(key, slow_get_page))
         cache_hits["LRU"] += 1;
@@ -60,7 +60,7 @@ int main() {
       file << sz <<'\t'
         << cache_stats["LRU"] << '\t'
         << cache_stats["LFU"] << '\t'
-        << cache_stats["perfect_cache"] << '\n';
+        << cache_stats["Belady"] << '\n';
     }
     file.close();
   }
