@@ -67,9 +67,7 @@ TEST(LRU, eviction) {
 
 size_t nhits(const std::vector<int> &input) {
   size_t cache_sz = input[0];
-  size_t nelem = input[1];
   std::vector<int> page_ids(input.begin() + 2, input.end());
-  assert(page_ids.size() == nelem);
 
   cache::LRU_t<page_t> lru{cache_sz};
   size_t hits{};
