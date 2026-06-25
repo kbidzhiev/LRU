@@ -11,6 +11,7 @@ add_subdirectory(main)
 add_subdirectory(LRU)
 add_subdirectory(LFU)
 add_subdirectory(perfect)
+add_subdirectory(benchmark)
 
 
 include(CTest)
