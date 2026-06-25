@@ -21,7 +21,7 @@ std::vector<int> generate_rnd_keys(size_t n, int mod = 100) {
 
 int main() {
   size_t input_sz = 100'000;
-  size_t rnd_mod = 100;
+  int rnd_mod = 100;
   std::vector<int> keys = generate_rnd_keys(input_sz, rnd_mod);
 
   std::map<size_t, std::map<std::string, int>> cache_sizes_vs_strategy_hits;
