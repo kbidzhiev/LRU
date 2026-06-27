@@ -24,26 +24,28 @@ public:
   bool full() const { return cache_.size() == sz_; };
 
   template <typename F> bool lookup_update(KeyT key, F slow_get_page) {
-    auto hit = hash_.find(key);
-    if (hit == hash_.end()) { // not found
-      if (full()) {
-        if (sz_ == 0) {
-          return false;
-        }
-        hash_.erase(cache_.back().key_);
-        cache_.pop_back();
-      }
-      auto it = find_mru_node_for_frequency(1);
-      it = cache_.emplace(it, NodeInfo{key, slow_get_page(key), 1});
-      hash_.emplace(key, it);
+    if (sz_ == 0) {
       return false;
     }
 
-    auto eltit = hit->second;
-    eltit->freq_ += 1;
-    auto it = find_mru_node_for_frequency(eltit->freq_);
-    cache_.splice(it, cache_, eltit);
-    return true;
+    auto hit = hash_.find(key);
+    if (hit != hash_.end()) {
+
+      auto eltit = hit->second;
+      eltit->freq_ += 1;
+      auto it = find_mru_node_for_frequency(eltit->freq_);
+      cache_.splice(it, cache_, eltit);
+      return true;
+    }
+
+    if (full()) {
+      hash_.erase(cache_.back().key_);
+      cache_.pop_back();
+    }
+    auto it = find_mru_node_for_frequency(1);
+    it = cache_.emplace(it, NodeInfo{key, slow_get_page(key), 1});
+    hash_.emplace(key, it);
+    return false;
   }
 
 private:

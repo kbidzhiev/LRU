@@ -24,18 +24,18 @@ public:
   bool full() const { return hash_.size() == sz_; };
 
   template <typename F> bool lookup_update(KeyT key, F slow_get_page) {
+    if (sz_ == 0) {
+      return false;
+    }
+
     assert(future_keys_.front() == key);
     future_keys_.pop_front();
-    auto hit = hash_.find(key);
 
-    if (hit != hash_.end())
+    if (hash_.find(key) != hash_.end())
       return true;
 
     // not found
     if (full()) {
-      if (sz_ == 0) {
-        return false;
-      }
       // eviction strategy:
       // "Replace the page that will not be used for the longest time in the
       // future."
